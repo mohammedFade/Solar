@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>فادي لأنظمة الطاقة الشمسية – احسب منظومتك</title>
+<meta name="theme-color" content="#020617">
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+:root{
+  --bg:#020617;
+  --accent:#22c55e;
+  --accent2:#0ea5e9;
+  --border:#1e293b;
+  --text:#e5e7eb;
+}
+body{
+  margin:0;
+  background:
+    linear-gradient(rgba(2,6,23,.95),rgba(2,6,23,.95)),
+    radial-gradient(circle at top,#0ea5e933,transparent 60%);
+  color:var(--text);
+  font-family:system-ui;
+}
+.container{max-width:1100px;margin:auto;padding:12px}
+h1{text-align:center;color:#22c55e}
+.card{
+  background:#020617cc;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:14px;
+}
+.btn{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;
+  padding:10px 16px;
+  border-radius:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+.btn.ghost{background:#020617;color:#38bdf8;border:1px solid var(--border)}
+.steps{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:900px){.steps{grid-template-columns:300px 1fr}}
+.step-item{
+  padding:12px;border-radius:12px;
+  border:1px solid var(--border);
+  margin-bottom:8px;
+  cursor:pointer;
+}
+.step-item.active{
+  background:linear-gradient(135deg,#22c55e,#0ea5e9);
+  color:#022c22;
+}
+.device-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:12px;
+}
+.dev-card{
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:12px;
+  text-align:center;
+  cursor:pointer;
+}
+.dev-card.added{border-color:#22c55e}
+.device{
+  display:grid;
+  grid-template-columns:1fr 60px 90px 90px;
+  gap:8px;
+  align-items:center;
+  margin-bottom:8px;
+}
+.hours{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+.hours button{
+  border:none;
+  width:30px;height:30px;
+  border-radius:50%;
+  background:#22c55e;
+  font-weight:900;
+}
+.summary{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:12px;
+}
+.box{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px;
+  text-align:center;
+}
+.value{color:#22c55e;font-weight:900;font-size:18px}
+.panel{display:none}
+.panel.active{display:block}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>فادي لأنظمة الطاقة الشمسية ☀️<br>احسب منظومتك</h1>
+
+<div class="steps">
+<div class="card">
+  <div class="step-item active" onclick="go(1)">① اختيار الأجهزة</div>
+  <div class="step-item" onclick="go(2)">② ساعات التشغيل</div>
+  <div class="step-item" onclick="go(3)">③ النتيجة</div>
+</div>
+
+<div>
+<div id="s1" class="card panel active">
+  <div class="device-cards" id="cards"></div>
+  <button class="btn" onclick="go(2)">التالي</button>
+</div>
+
+<div id="s2" class="card panel">
+  <div id="devices"></div>
+  <button class="btn ghost" onclick="go(1)">رجوع</button>
+  <button class="btn" onclick="go(3)">عرض النتيجة</button>
+</div>
+
+<div id="s3" class="card panel">
+  <div id="result" class="summary"></div>
+  <br>
+  <button class="btn" onclick="saveImage()">💾 حفظ كصورة</button>
+  <button class="btn" onclick="sendWhatsApp()">📲 واتساب</button>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const PANEL_WATT = 590;
+const SUN_HOURS = 5;
+const BATTERY_MARGIN = 1.2;
+
+const catalog=[
+ {n:"شاشة",w:150,i:"📺"},
+ {n:"ثلاجة",w:200,i:"🧊"},
+ {n:"مروحة",w:70,i:"🌀"},
+ {n:"مكيف نسمة",w:250,i:"❄️"},
+ {n:"غسالة",w:600,i:"🧺"},
+ {n:"لمبة",w:30,i:"💡"},
+ {n:"لابتوب",w:100,i:"💻"},
+ {n:"موتور نص حصان",w:400,i:"🚰"},
+ {n:"موتور 1 حصان",w:750,i:"🚿"}
+];
+
+let devices=[];
+const cards=document.getElementById("cards");
+const devicesDiv=document.getElementById("devices");
+const resultDiv=document.getElementById("result");
+
+catalog.forEach(d=>{
+  const c=document.createElement("div");
+  c.className="dev-card";
+  c.innerHTML=`<div style="font-size:28px">${d.i}</div><b>${d.n}</b><br>${d.w} W`;
+  c.onclick=()=>{
+    if(!devices.find(v=>v.n==d.n))
+      devices.push({n:d.n,w:d.w,i:d.i,c:1,day:1,night:0});
+    c.classList.add("added");
+    renderDevices();
+  };
+  cards.appendChild(c);
+});
+
+function go(n){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".step-item").forEach((s,i)=>s.classList.toggle("active",i+1==n));
+  document.getElementById("s"+n).classList.add("active");
+  calc();
+}
+
+function renderDevices(){
+  devicesDiv.innerHTML="";
+  devices.forEach((d,i)=>{
+    devicesDiv.innerHTML+=`
+    <div class="device">
+      <div>${d.i} ${d.n}</div>
+      <input type="number" min="1" value="${d.c}"
+        onchange="devices[${i}].c=this.value||1;calc()">
+      <div class="hours">
+        <button onclick="devices[${i}].day++;renderDevices()">+</button>
+        نهار ${d.day}
+        <button onclick="devices[${i}].day>0&&devices[${i}].day--;renderDevices()">−</button>
+      </div>
+      <div class="hours">
+        <button onclick="devices[${i}].night++;renderDevices()">+</button>
+        ليل ${d.night}
+        <button onclick="devices[${i}].night>0&&devices[${i}].night--;renderDevices()">−</button>
+      </div>
+    </div>`;
+  });
+  calc();
+}
+
+function inverter(w){
+  if(w<800) return "انفيرتر 2.2 كيلو";
+  if(w<1800) return "انفيرتر 3.2 كيلو";
+  if(w<3300) return "انفيرتر 4.2 كيلو";
+  if(w<4800) return "انفيرتر 6.2 كيلو";
+  if(w<5800) return "انفيرتر 8.2 كيلو";
+  if(w<7800) return "انفيرتر 10.2 كيلو";
+  return "يرجى التواصل مع مهندس المنظومة";
+}
+
+let data={};
+
+function calc(){
+  let inst=0, day=0, night=0;
+  devices.forEach(d=>{
+    inst+=d.w*d.c;
+    day+=d.w*d.c*d.day;
+    night+=d.w*d.c*d.night;
+  });
+
+  const batteryKwh=((night*BATTERY_MARGIN)/1000).toFixed(2);
+  const panels=Math.ceil(day/(PANEL_WATT*SUN_HOURS));
+
+  data={inst,day,night,total:day+night,batteryKwh,panels,inv:inverter(inst)};
+
+  resultDiv.innerHTML=`
+    <div class="box"><div>🔌 القدرة اللحظية</div><div class="value">${inst} W</div></div>
+    <div class="box"><div>☀️ استهلاك النهار</div><div class="value">${day} Wh</div></div>
+    <div class="box"><div>🌙 استهلاك الليل</div><div class="value">${night} Wh</div></div>
+    <div class="box"><div>📊 الاستهلاك الكلي</div><div class="value">${day+night} Wh</div></div>
+    <div class="box"><div>🔋 البطارية</div><div class="value">${batteryKwh} kWh</div></div>
+    <div class="box"><div>🌞 عدد الألواح</div><div class="value">${panels}</div></div>
+    <div class="box"><div>⚡ الانفيرتر</div><div class="value">${data.inv}</div></div>
+  `;
+}
+
+function saveImage(){
+  html2canvas(resultDiv).then(c=>{
+    const a=document.createElement("a");
+    a.download="solar-result.png";
+    a.href=c.toDataURL();
+    a.click();
+  });
+}
+
+function sendWhatsApp(){
+  const msg=`مرحبا،
+أرغب في عرض سعر لمنظومة طاقة شمسية:
+
+🔌 القدرة اللحظية: ${data.inst} W
+☀️ استهلاك النهار: ${data.day} Wh
+🌙 استهلاك الليل: ${data.night} Wh
+📊 الاستهلاك الكلي: ${data.total} Wh
+🔋 البطارية: ${data.batteryKwh} kWh
+⚡ الانفيرتر: ${data.inv}
+🌞 عدد الألواح: ${data.panels}
+
+شكراً`;
+  window.open("https://wa.me/249912341391?text="+encodeURIComponent(msg));
+}
+</script>
+</body>
+  </html>
