@@ -1,6 +1,6 @@
 // البيانات الأساسية
 const PANEL_WATT = 590;
-const SUN_HOURS = 4;
+const SUN_HOURS = 2;
 const BATTERY_MARGIN = 1.2;
 const MAX_HOURS = 12; // الحد الأقصى للساعات
 
@@ -315,7 +315,7 @@ function calculateResults() {
     <div class="result-card">
       <div class="result-icon">🌞</div>
       <div class="result-title">عدد الألواح الشمسية</div>
-      <div class="result-value">${panels}+1 لوح</div>
+      <div class="result-value">${panels} لوح</div>
     </div>
   `;
 }
