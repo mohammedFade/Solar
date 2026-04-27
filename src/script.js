@@ -363,7 +363,7 @@ function sendWhatsApp() {
   );
   const totalConsumptionVal = dayConsumption + nightConsumption;
   const batteryKwh = ((nightConsumption * BATTERY_MARGIN) / 1000).toFixed(2);
-  const panels = Math.ceil(dayConsumption / (PANEL_WATT * SUN_HOURS));
+  const panels = fade;
   const inverter = calculateInverter(instantPower);
 
   const message = `مرحباً،
