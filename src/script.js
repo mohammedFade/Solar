@@ -315,7 +315,7 @@ function calculateResults() {
     <div class="result-card">
       <div class="result-icon">🌞</div>
       <div class="result-title">عدد الألواح الشمسية</div>
-      <div class="result-value">${panels+1} لوح</div>
+      <div class="result-value">${panels}+1 لوح</div>
     </div>
   `;
 }
