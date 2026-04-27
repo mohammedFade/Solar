@@ -12,8 +12,8 @@ const catalog = [
   { n: "ثلاجة انفيرتر", w: 90, i: "🥶" },
   { n: "مكيف نسمة", w: 250, i: "❄️" },
   { n: "إنارة LED", w: 40, i: "💡" },
-  { n: "مكيف سبليت انفيرتر", w: 800, i: "🛡️" },
-  { n: "مكيف سبليت", w: 1800, i: "🌬️" },
+  { n: "مكيف سبليت 12 انفيرتر", w: 850, i: "🛡️" },
+  { n: "12 مكيف سبليت", w: 1800, i: "🌬️" },
   { n: "غسالة أطباق", w: 1500, i: "🧺" },
   { n: "غسالة ملابس", w: 400, i: "👕" },
   { n: "لابتوب", w: 100, i: "💻" },
@@ -245,7 +245,7 @@ function calculateInverter(watts) {
   if (watts < 4800) return "انفيرتر 6.2 كيلو واط";
   if (watts < 5800) return "انفيرتر 8.2 كيلو واط";
   if (watts < 7800) return "انفيرتر 10.2 كيلو واط";
-  return "يرجى التواصل مع مهندس المنظومة";
+  return "يرجى التواصل مع مهندس مختص";
 }
 
 // الحسابات الرئيسية
@@ -274,7 +274,7 @@ function calculateResults() {
 
   const totalConsumptionVal = dayConsumption + nightConsumption;
   const batteryKwh = ((nightConsumption * BATTERY_MARGIN) / 1000).toFixed(2);
-  const panels = Math.ceil(dayConsumption / (PANEL_WATT * SUN_HOURS));
+  const panels = Math.ceil(totalConsumptionVal / (PANEL_WATT * SUN_HOURS));
   const inverter = calculateInverter(instantPower);
 
   // تحديث نتيجة الانفرتر
