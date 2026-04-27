@@ -274,7 +274,7 @@ function calculateResults() {
 
   const totalConsumptionVal = dayConsumption + nightConsumption;
   const batteryKwh = ((nightConsumption * BATTERY_MARGIN) / 1000).toFixed(2);
-  const panels = "tts";
+  const panels = Math.ceil(totalConsumptionVal / 3600);
   const inverter = calculateInverter(instantPower);
 
   // تحديث نتيجة الانفرتر
@@ -363,7 +363,7 @@ function sendWhatsApp() {
   );
   const totalConsumptionVal = dayConsumption + nightConsumption;
   const batteryKwh = ((nightConsumption * BATTERY_MARGIN) / 1000).toFixed(2);
-  const panels = "fade";
+  const panels = Math.ceil(totalConsumptionVal / 3600);
   const inverter = calculateInverter(instantPower);
 
   const message = `مرحباً،
