@@ -422,34 +422,94 @@ function calculateResults() {
 /* whatsapp */
 
 function sendWhatsApp() {
-
+  
   if (devices.length === 0) {
-
+    
     alert("أضف أجهزة أولاً");
-
+    
     return;
-
+    
   }
-
-  let message = `⚡ نتائج حساب الطاقة الشمسية\n\n`;
-
+  
+  let instantPower = 0;
+  let dayConsumption = 0;
+  let nightConsumption = 0;
+  
   devices.forEach(device => {
-
-    message += `• ${device.n}\n`;
-    message += `العدد: ${device.qty}\n`;
-    message += `النهار: ${device.day} ساعة\n`;
-    message += `الليل: ${device.night} ساعة\n\n`;
-
+    
+    instantPower += device.w * device.qty;
+    
+    dayConsumption +=
+      device.w *
+      device.qty *
+      device.day;
+    
+    nightConsumption +=
+      device.w *
+      device.qty *
+      device.night;
+    
   });
-
+  
+  const totalConsumption =
+    dayConsumption + nightConsumption;
+  
+  const battery =
+    ((nightConsumption * BATTERY_MARGIN) / 1000)
+    .toFixed(1);
+  
+  const panels =
+    Math.ceil(totalConsumption / PANEL_WATT);
+  
+  const inverter =
+    calculateInverter(instantPower);
+  
+  let message = `☀️ *نتائج حساب المنظومة الشمسية* ⚡\n\n`;
+  
+  message += `━━━━━━━━━━━━━━\n`;
+  message += `📋 *تفاصيل الأجهزة*\n`;
+  message += `━━━━━━━━━━━━━━\n\n`;
+  
+  devices.forEach(device => {
+    
+    message += `🔹 *${device.n}*\n`;
+    message += `📦 العدد: ${device.qty}\n`;
+    message += `☀️ النهار: ${device.day} ساعة\n`;
+    message += `🌙 الليل: ${device.night} ساعة\n`;
+    message += `⚡ الاستهلاك: ${device.w * device.qty} واط\n\n`;
+    
+  });
+  
+  message += `━━━━━━━━━━━━━━\n`;
+  message += `📊 *نتائج المنظومة*\n`;
+  message += `━━━━━━━━━━━━━━\n\n`;
+  
+  message += `⚡ القدرة اللحظية: ${instantPower.toLocaleString()} W\n`;
+  
+  message += `☀️ استهلاك النهار: ${dayConsumption.toLocaleString()} W\n`;
+  
+  message += `🌙 استهلاك الليل: ${nightConsumption.toLocaleString()} W\n`;
+  
+  message += `📈 الاستهلاك الكلي: ${totalConsumption.toLocaleString()} W\n`;
+  
+  message += `🔋 البطارية المقترحة: ${battery} kWh\n`;
+  
+  message += `☀️ عدد الألواح: ${panels} لوح\n`;
+  
+  message += `⚡ الانفيرتر المناسب: ${inverter}\n\n`;
+  
+  message += `━━━━━━━━━━━━━━\n`;
+  message += `💚 شكرًا لاستخدامك نظام فادي لحساب الطاقة الشمسية\n`;
+  message += `نسعد بخدمتك دائمًا ونتمنى لك تجربة طاقة ذكية وآمنة ☀️✨\n\n`;
+  
   window.open(
-
+    
     `https://wa.me/249912341391?text=${encodeURIComponent(message)}`,
-
+    
     "_blank"
-
+    
   );
-
+  
 }
 
 /* navigation */
