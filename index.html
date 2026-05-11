@@ -1,164 +1,156 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>فادي لأنظمة الطاقة الشمسية – حاسبة احترافية</title>
-  <meta name="description" content="احسب احتياجاتك من الطاقة الشمسية بدقة واحترافية">
-  <meta name="theme-color" content="#0f172a">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <link rel="stylesheet" href="src/style.css">
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>حاسبة الطاقة الشمسية</title>
+
+  <link rel="stylesheet" href="src/style.css" />
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
 </head>
 
 <body>
-  <div class="container">
-    <!-- الهيدر -->
-    <header class="header">
-      <div class="logo">
-        <i class="fas fa-solar-panel"></i>
-        <h1>فادي لأنظمة الطاقة الشمسية</h1>
+
+  <!-- HERO -->
+
+  <header class="hero">
+
+    <div class="hero-content">
+
+      <div class="badge">
+        ⚡ فادي لانظمة الشمسية
       </div>
-      <p class="subtitle">حاسبة ذكية تمكنك من تحديد احتياجاتك بدقة واحترافية لتصميم نظام الطاقة الشمسية الأمثل لمنزلك
+
+      <h1>
+        احسب منظومتك الشمسية خلال دقيقة
+      </h1>
+
+      <p>
+        اختر أجهزتك واحصل فورًا على عدد الألواح والبطاريات والانفيرتر المناسب.
       </p>
-    </header>
 
-    <div class="steps-container">
-      <!-- القائمة الجانبية للخطوات -->
-      <aside class="steps-sidebar">
-        <ul class="steps-list">
-          <li class="step-item active" onclick="go(1)">
-            <div class="step-number">1</div>
-            <div class="step-info">
-              <h3>اختر أجهزتك</h3>
-              <p>اختر الأجهزة الكهربائية التي تريد تشغيلها</p>
-            </div>
-          </li>
-          <li class="step-item" onclick="go(2)">
-            <div class="step-number">2</div>
-            <div class="step-info">
-              <h3>حدد ساعات التشغيل</h3>
-              <p>حدد ساعات التشغيل النهاري والليلي</p>
-            </div>
-          </li>
-          <li class="step-item" onclick="go(3)">
-            <div class="step-number">3</div>
-            <div class="step-info">
-              <h3>اطلع على النتائج</h3>
-              <p>احصل على مواصفات النظام المناسب لك</p>
-            </div>
-          </li>
-        </ul>
+      <button class="cta-btn" onclick="goStep(1)">
+        ابدأ الآن
+      </button>
 
-        <div class="alert alert-info">
-          <i class="fas fa-lightbulb"></i>
-          <div>تم تصميم الحسابات بناءً على متوسط 10 ساعات شمسية يومياً</div>
-        </div>
-
-        <div class="stats-summary" id="statsSummary">
-          <h4><i class="fas fa-chart-line"></i> ملخص سريع</h4>
-          <div class="stat-item">
-            <span>عدد الأجهزة:</span>
-            <span class="stat-value" id="devicesCount">0</span>
-          </div>
-          <div class="stat-item">
-            <span>إجمالي الاستهلاك:</span>
-            <span class="stat-value" id="totalConsumption">0 واط/ساعة</span>
-          </div>
-        </div>
-      </aside>
-
-      <!-- المحتوى الرئيسي -->
-      <main class="main-content">
-        <!-- الخطوة 1: اختيار الأجهزة -->
-        <section id="s1" class="panel active">
-          <div class="section-title">
-            <i class="fas fa-plug"></i>
-            <h2>اختر الأجهزة الكهربائية</h2>
-          </div>
-
-          <div class="alert alert-info">
-            <i class="fas fa-info-circle"></i>
-            <div>انقر على الأجهزة التي تريد إضافتها إلى نظامك الشمسي</div>
-          </div>
-
-          <div class="catalog" id="cards"></div>
-
-          <div class="actions">
-            <button class="btn btn-secondary" onclick="clearAll()">
-              <i class="fas fa-trash-alt"></i> مسح الكل
-            </button>
-            <button class="btn btn-primary" onclick="go(2)">
-              التالي <i class="fas fa-arrow-left"></i>
-            </button>
-          </div>
-        </section>
-
-        <!-- الخطوة 2: ساعات التشغيل -->
-        <section id="s2" class="panel">
-          <div class="section-title">
-            <i class="fas fa-clock"></i>
-            <h2>حدد ساعات التشغيل</h2>
-          </div>
-
-          <p style="margin-bottom: 20px; color: #94a3b8;">اضبط عدد كل جهاز وساعات تشغيله خلال النهار والليل (الحد الأقصى
-            12 ساعة لكل منهما)</p>
-
-          <div class="time-range-notice">
-            <i class="fas fa-exclamation-circle"></i>
-            <div>لاحظ أن مجموع ساعات التشغيل (نهار+ليل) يجب ألا يتجاوز 24 ساعة لكل جهاز</div>
-          </div>
-
-          <div class="device-headers">
-            <div class="header-item">الجهاز</div>
-            <div class="header-item">العدد</div>
-            <div class="header-item">ساعات النهار (12 ←)</div>
-            <div class="header-item">ساعات الليل (12 ←)</div>
-          </div>
-
-          <div id="devices"></div>
-
-          <div class="actions">
-            <button class="btn btn-secondary" onclick="go(1)">
-              <i class="fas fa-arrow-right"></i> رجوع
-            </button>
-            <button class="btn btn-primary" onclick="go(3)">
-              عرض النتيجة <i class="fas fa-chart-bar"></i>
-            </button>
-          </div>
-        </section>
-
-        <!-- الخطوة 3: النتائج -->
-        <section id="s3" class="panel">
-          <div class="section-title">
-            <i class="fas fa-chart-pie"></i>
-            <h2>نتائج حساب نظام الطاقة الشمسية</h2>
-          </div>
-
-          <div class="results-grid" id="result"></div>
-
-          <div class="inverter-card">
-            <div class="result-icon">
-              <i class="fas fa-bolt"></i>
-            </div>
-            <div class="result-title">الانفرتر المقترح</div>
-            <div class="result-value" id="inverter-result">انفيرتر 2.2 كيلو</div>
-          </div>
-
-          <div class="result-actions">
-            <button class="btn btn-whatsapp" onclick="sendWhatsApp()">
-              <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-            </button>
-            <button class="btn btn-secondary" onclick="go(1)">
-              <i class="fas fa-redo"></i> حساب جديد
-            </button>
-          </div>
-        </section>
-      </main>
     </div>
+
+  </header>
+
+  <!-- APP -->
+
+  <main class="container">
+
+    <!-- STEPPER -->
+
+    <div class="stepper">
+
+      <div class="step active" id="step-1">
+        <span>1</span>
+        الأجهزة
+      </div>
+
+      <div class="step" id="step-2">
+        <span>2</span>
+        التشغيل
+      </div>
+
+      <div class="step" id="step-3">
+        <span>3</span>
+        النتائج
+      </div>
+
+    </div>
+
+    <!-- STEP 1 -->
+
+    <section class="panel active" id="panel-1">
+
+      <div class="section-head">
+
+        <h2>اختر الأجهزة</h2>
+
+        <p>
+          اضغط على أي جهاز لإضافته
+        </p>
+
+      </div>
+
+      <div class="catalog" id="catalog"></div>
+
+    </section>
+
+    <!-- STEP 2 -->
+
+    <section class="panel" id="panel-2">
+
+      <div class="section-head">
+
+        <h2>ساعات التشغيل</h2>
+
+        <p>
+          حدد عدد الأجهزة وساعات التشغيل
+        </p>
+
+      </div>
+
+      <div id="devices"></div>
+
+    </section>
+
+    <!-- STEP 3 -->
+
+    <section class="panel" id="panel-3">
+
+      <div class="section-head">
+
+        <h2>نتائج الحساب</h2>
+
+        <p>
+          النظام المقترح لمنزلك
+        </p>
+
+      </div>
+
+      <div class="results-grid" id="results"></div>
+
+      <!-- whatsapp -->
+
+      <button class="whatsapp-btn" onclick="sendWhatsApp()">
+
+        <i class="fab fa-whatsapp"></i>
+
+        إرسال النتائج عبر واتساب
+
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- bottom -->
+
+  <div class="bottom-bar">
+
+    <button class="secondary-btn" onclick="prevStep()">
+      رجوع
+    </button>
+
+    <button class="primary-btn" onclick="nextStep()">
+      التالي
+    </button>
+
   </div>
+
   <script src="src/script.js"></script>
+
 </body>
 
 </html>
