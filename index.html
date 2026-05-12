@@ -7,7 +7,13 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>حاسبة الطاقة الشمسية</title>
+  <title>حاسبة الطاقة الشمسية | FADI SOLAR</title>
+  
+  <!-- GOOGLE FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="src/style.css" />
 
@@ -19,38 +25,64 @@
 <body>
 
   <!-- HERO -->
-
   <header class="hero">
+
+    <!-- تأثيرات -->
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
 
     <div class="hero-content">
 
       <div class="badge">
-        ⚡ فادي لانظمة الشمسية
+        ⚡ فادي لأنظمة الطاقة الشمسية
       </div>
 
-      <h1>
+      <h2 style="font-family: Cairo, sans-serif;">
         احسب منظومتك الشمسية خلال دقيقة
-      </h1>
+      </h2>
 
       <p>
-        اختر أجهزتك واحصل فورًا على عدد الألواح والبطاريات والانفيرتر المناسب.
+        اختر أجهزتك واحصل فورًا على </br>
+        عدد الألواح والبطاريات والانفيرتر المناسب </br>
       </p>
 
-      <button class="cta-btn" onclick="goStep(1)">
-        ابدأ الآن
-      </button>
+      <div class="hero-actions">
+
+        <div class="hero-mini-info">
+          <span>⚡ سريع</span>
+          <span>🔍 دقيق</span>
+          <span>💸 مجاني</span>
+        </div></br>
+        
+        <div>
+          <a href="tel:+249912341391" class="cta-call-btn">
+
+  <span class="call-icon">
+    <i class="fas fa-phone-alt"></i>
+  </span>
+
+  <div class="call-content">
+
+    <small>للاستفسار اتصل الآن</small>
+
+    <strong>+249912341391</strong>
+
+  </div>
+
+</a>
+        </div>
+
+      </div>
 
     </div>
 
   </header>
 
   <!-- APP -->
-
   <main class="container">
 
     <!-- STEPPER -->
-
-    <div class="stepper">
+    <div class="stepper glass" style="font-family: Cairo, sans-serif;">
 
       <div class="step active" id="step-1">
         <span>1</span>
@@ -70,17 +102,18 @@
     </div>
 
     <!-- STEP 1 -->
-
-    <section class="panel active" id="panel-1">
+    <section class="panel active fade-up" id="panel-1">
 
       <div class="section-head">
 
-        <h2>اختر الأجهزة</h2>
+        <div>
+          <h2>اختر الأجهزة</h2>
 
-        <p>
-          اضغط على أي جهاز لإضافته
-        </p>
-
+          <p>
+            اضغط على أي جهاز لإضافته لحساب المنظومة التى تناسبك 😊
+          </p>
+        </div>
+        
       </div>
 
       <div class="catalog" id="catalog"></div>
@@ -88,16 +121,17 @@
     </section>
 
     <!-- STEP 2 -->
-
-    <section class="panel" id="panel-2">
+    <section class="panel fade-up" id="panel-2">
 
       <div class="section-head">
 
-        <h2>ساعات التشغيل</h2>
+        <div>
+          <h2>ساعات التشغيل</h2>
 
-        <p>
-          حدد عدد الأجهزة وساعات التشغيل
-        </p>
+          <p>
+            حدد عدد الأجهزة وساعات التشغيل للفترة النهارية 🌝 والليلية  🌚
+          </p>
+        </div>
 
       </div>
 
@@ -106,24 +140,24 @@
     </section>
 
     <!-- STEP 3 -->
-
-    <section class="panel" id="panel-3">
+    <section class="panel fade-up" id="panel-3">
 
       <div class="section-head">
 
-        <h2>نتائج الحساب</h2>
+        <div>
+          <h2>نتائج الحساب</h2>
 
-        <p>
-          النظام المقترح لمنزلك
-        </p>
+          <p>
+            النظام المقترح المناسب لمنزلك بناءا على اختياراتك 🌞
+          </p>
+        </div>
 
       </div>
 
       <div class="results-grid" id="results"></div>
 
       <!-- whatsapp -->
-
-      <button class="whatsapp-btn" onclick="sendWhatsApp()">
+      <button class="whatsapp-btn" onclick="sendWhatsApp()" style="font-family: Cairo, sans-serif;">
 
         <i class="fab fa-whatsapp"></i>
 
@@ -136,14 +170,13 @@
   </main>
 
   <!-- bottom -->
-
   <div class="bottom-bar">
 
-    <button class="secondary-btn" onclick="prevStep()">
+    <button class="secondary-btn" onclick="prevStep()" style="font-family: Cairo, sans-serif;">
       رجوع
     </button>
 
-    <button class="primary-btn" onclick="nextStep()">
+    <button class="primary-btn" onclick="nextStep()" style="font-family: Cairo, sans-serif;">
       التالي
     </button>
 
