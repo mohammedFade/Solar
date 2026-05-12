@@ -260,7 +260,7 @@ function changeDay(index, value) {
     devices[index].day = MAX_HOURS;
 
   }
-ؤ
+
   renderDevices();
 
 }
