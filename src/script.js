@@ -5,17 +5,17 @@ const MAX_HOURS = 12;
 const catalog = [
 
   { n: "شاشة تلفزيون", w: 150, i: "📺" },
-  { n: "مروحة", w: 75, i: "🌀" },
+  { n: "مروحة", w: 80, i: "🌀" },
   { n: "ثلاجة عادية", w: 250, i: "🧊" },
   { n: "ثلاجة انفيرتر", w: 90, i: "🥶" },
   { n: "مكيف نسمة", w: 250, i: "❄️" },
   { n: "إنارة LED", w: 40, i: "💡" },
   { n: "مكيف سبليت 12 انفيرتر", w: 850, i: "🛡️" },
-  { n: "مكيف سبليت 12", w: 1800, i: "🌬️" },
-  { n: "غسالة أطباق", w: 1500, i: "🧺" },
+  { n: " مكيف سبليت 12 عادي", w: 1800, i: "🌬️" },
   { n: "غسالة ملابس", w: 400, i: "👕" },
   { n: "لابتوب", w: 100, i: "💻" },
   { n: "سخان مياه", w: 2000, i: "🚿" },
+  { n: "هيتر طبخ", w: 2500, i: "🍳" },
   { n: "ميكروويف", w: 1200, i: "🍲" },
   { n: "فرن كهربائي", w: 2500, i: "🔥" },
   { n: "موتور 1/2 حصان", w: 400, i: "🚰" },
@@ -371,7 +371,7 @@ function calculateResults() {
 
       <h3>☀️ استهلاك النهار</h3>
 
-      <p>${dayConsumption.toLocaleString()}</p>
+      <p>${dayConsumption.toLocaleString()} W</p>
 
     </div>
 
@@ -379,7 +379,7 @@ function calculateResults() {
 
       <h3>🌙 استهلاك الليل</h3>
 
-      <p>${nightConsumption.toLocaleString()}</p>
+      <p>${nightConsumption.toLocaleString()} W</p>
 
     </div>
 
@@ -387,7 +387,7 @@ function calculateResults() {
 
       <h3>📊 الاستهلاك الكلي</h3>
 
-      <p>${totalConsumption.toLocaleString()}</p>
+      <p>${totalConsumption.toLocaleString()} W</p>
 
     </div>
 
@@ -401,9 +401,9 @@ function calculateResults() {
 
     <div class="result-card">
 
-      <h3>☀️ عدد الألواح</h3>
+      <h3>️🔳 عدد الألواح</h3>
 
-      <p>${panels}</p>
+      <p>${panels} لوح</p>
 
     </div>
 
