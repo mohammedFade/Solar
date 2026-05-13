@@ -459,7 +459,7 @@ function sendWhatsApp() {
     .toFixed(1);
   
   const panels =
-    Math.ceil(totalConsumption / PANEL_WATT);
+    Math.ceil(totalConsumption / 4200);
   
   const inverter =
     calculateInverter(instantPower);
